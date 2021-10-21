@@ -1,5 +1,8 @@
 const express = require('express');
 const request = require('request');
+const https = require('https');
+const mailchimp = require("@mailchimp/mailchimp_marketing");
+
 
 const app = express();
 
@@ -11,14 +14,46 @@ app.get('/', function(req, res) {
     res.sendFile(__dirname + '/signup.html');
 })
 
-app.post('/', function(req, res) {
-    firstName = req.body.fName;
-    lastName = req.body.lName;
-    email = req.body.email;
 
-    console.log(firstName, lastName, email);
-})
+app.post('/', function(req, res) {
+    const firstName = req.body.fName;
+    const lastName = req.body.lName;
+    const email = req.body.email;
+
+    mailchimp.setConfig({
+        apiKey: "97babf2826e37c03601db90340070e5c-us5",
+        server: "us5",
+    });
+
+    const listId = "90a46aa076";
+    const subscribingUser = {
+        firstName: req.body.fName,
+        lastName: req.body.lName,
+        email: req.body.email,
+    };
+
+    async function run() {
+        const response = await mailchimp.lists.addListMember(listId, {
+            email_address: subscribingUser.email,
+            status: "subscribed",
+            merge_fields: {
+                FNAME: subscribingUser.firstName,
+                LNAME: subscribingUser.lastName
+            },
+        });
+        console.log(response);
+    }
+    run();
+
+});
 
 app.listen(3000, function() {
     console.log('The newsletter server is running on port 3000.');
 });
+
+
+// API key
+// 97babf2826e37c03601db90340070e5c-us5
+
+// List ID
+// 90a46aa076

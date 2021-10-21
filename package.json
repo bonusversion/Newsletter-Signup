@@ -9,6 +9,7 @@
   "author": "bonus",
   "license": "ISC",
   "dependencies": {
+    "@mailchimp/mailchimp_marketing": "^3.0.70",
     "express": "^4.17.1",
     "request": "^2.88.2"
   }
