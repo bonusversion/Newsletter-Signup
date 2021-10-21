@@ -21,7 +21,7 @@ app.post('/', function(req, res) {
     const email = req.body.email;
 
     mailchimp.setConfig({
-        apiKey: "97babf2826e37c03601db90340070e5c-us5",
+        apiKey: "5d3340b8b00783c6c49fee37ad9f79d2-us5",
         server: "us5",
     });
 
@@ -58,7 +58,7 @@ app.post('/failure', function(req, res) {
     res.redirect('/');
 })
 
-app.listen(3000, function() {
+app.listen(process.env.PORT || 3000, function() {
     console.log('The newsletter server is running on port 3000.');
 });
 
