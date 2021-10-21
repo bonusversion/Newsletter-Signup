@@ -33,23 +33,39 @@ app.post('/', function(req, res) {
     };
 
     async function run() {
-        const response = await mailchimp.lists.addListMember(listId, {
-            email_address: subscribingUser.email,
-            status: "subscribed",
-            merge_fields: {
-                FNAME: subscribingUser.firstName,
-                LNAME: subscribingUser.lastName
-            },
-        });
-        console.log(response);
+        try {
+            const response = await mailchimp.lists.addListMember(listId, {
+                email_address: subscribingUser.email,
+                status: "subscribed",
+                merge_fields: {
+                    FNAME: subscribingUser.firstName,
+                    LNAME: subscribingUser.lastName,
+                },
+            });
+            console.log(response);
+            res.sendFile(__dirname + "/success.html");
+        } catch (error) {
+            res.sendFile(__dirname + "/failure.html");
+        }
     }
+
     run();
 
 });
 
+
+app.post('/failure', function(req, res) {
+    res.redirect('/');
+})
+
 app.listen(3000, function() {
     console.log('The newsletter server is running on port 3000.');
 });
+
+
+
+
+
 
 
 // API key
