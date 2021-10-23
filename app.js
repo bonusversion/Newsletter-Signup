@@ -1,6 +1,6 @@
 const express = require('express');
-const request = require('request');
-const https = require('https');
+// const request = require('request');
+// const https = require('https');
 const mailchimp = require("@mailchimp/mailchimp_marketing");
 
 
